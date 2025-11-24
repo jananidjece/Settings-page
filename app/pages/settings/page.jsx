@@ -234,7 +234,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, CardHeader, CardContent, CardTitle } from "../../component/ui/page";
+import { Card, CardHeader, CardContent, CardTitle } from "../../component/ui/card";
 import { Button } from "../../component/ui/button";
 import { Input } from "../../component/ui/input";
 import { Label } from "../../component/ui/label";
