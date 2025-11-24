@@ -128,7 +128,7 @@ const Navbar = () => {
                 {/* Small centered underline */}
                 <span
                   className={`
-                    absolute left-1/2 -translate-x-1/2 bottom-0 h- [2px] bg-orange-500
+                    absolute left-1/2 -translate-x-1/2 bottom-0 h-[2px] bg-orange-500
                     transition-all duration-300 rounded-full
                     ${active ? "w-6" : "w-0"}
                   `}
