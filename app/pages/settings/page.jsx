@@ -1,54 +1,157 @@
-// "use client";
-// import { Card, CardHeader, CardContent, CardTitle } from "../../component/ui/page";
-// import { Button } from "../../component/ui/button";
-// import { Input } from "../../component/ui/input";
-// import { Label } from "../../component/ui/label";
-// import { MdOutlineModeEditOutline} from "react-icons/md";
-// import { PiTrashDuotone } from "react-icons/pi";
-// import { FaPlus } from "react-icons/fa6";
-// import React, { useState } from 'react';
+"use client";
+
+import React, { useState } from "react";
+import { Card, CardHeader, CardContent, CardTitle } from "../../component/ui/card";
+import { Button } from "../../component/ui/button";
+import { Input } from "../../component/ui/input";
+import { Label } from "../../component/ui/label";
+import { MdOutlineModeEditOutline } from "react-icons/md";
+import { PiTrashDuotone } from "react-icons/pi";
+import { FaPlus } from "react-icons/fa6";
 
 // const Settings = () => {
-//  const [showSuccess, setShowSuccess] = useState(false);
-  
+//   const [showSuccess, setShowSuccess] = useState(false);
+
 //   const [profile, setProfile] = useState({
-//     restaurantName: 'The Gourmet Kitchen',
-//     phoneNumber: '(123) 456-7890',
-//     address: '123 Culinary Lane, Foodie City, 90210'
+//     restaurantName: "The Gourmet Kitchen",
+//     phoneNumber: "(123) 456-7890",
+//     address: "123 Culinary Lane, Foodie City, 90210",
 //   });
 
 //   const [hours, setHours] = useState({
-//     Monday: { start: '09:00', end: '10:00' },
-//     Tuesday: { start: '09:00', end: '10:00' },
-//     Wednesday: { start: '09:00', end: '10:00' }
+//     Monday: { start: "09:00", end: "10:00" },
+//     Tuesday: { start: "09:00", end: "10:00" },
+//     Wednesday: { start: "09:00", end: "10:00" },
 //   });
 
 //   const [staff, setStaff] = useState([
-//     { id: 1, name: 'Jane Doe', role: 'Admin' },
-//     { id: 2, name: 'John Smith', role: 'Manager' }
+//     { id: 1, name: "Jane Doe", role: "Admin" },
+//     { id: 2, name: "John Smith", role: "Manager" },
 //   ]);
 
 //   const [notifications, setNotifications] = useState({
 //     emailOrders: true,
 //     smsOrders: false,
-//     dailySummary: true
+//     dailySummary: true,
 //   });
 
+//   // validation errors
+//   const [errors, setErrors] = useState({
+//     profileName: "",
+//     staff: {}, // { [id]: "error message" }
+//   });
+
+//   // Validation helpers
+//   const validateProfileName = (name) => {
+//     if (!name || !name.trim()) {
+//       return "Restaurant name cannot be empty";
+//     }
+//     return "";
+//   };
+
+//   const validateStaffName = (name) => {
+//     if (!name || !name.trim()) {
+//       return "Name cannot be empty";
+//     }
+//     return "";
+//   };
+
+//   // Called on Save
 //   const handleSave = () => {
+//     // validate profile
+//     const profileNameError = validateProfileName(profile.restaurantName);
+
+//     // validate staff
+//     const staffErrors = {};
+//     staff.forEach((s) => {
+//       const err = validateStaffName(s.name);
+//       if (err) staffErrors[s.id] = err;
+//     });
+
+//     setErrors({ profileName: profileNameError, staff: staffErrors });
+
+//     const hasErrors =
+//       !!profileNameError || Object.keys(staffErrors).length > 0;
+
+//     if (hasErrors) {
+//       // prevent saving
+//       alert("Please fix validation errors before saving.");
+//       return;
+//     }
+
+//     // simulate save
+//     const savedData = { profile, hours, staff, notifications };
+//     console.log("Saved Settings:", savedData);
+
+//     // show success UI
 //     setShowSuccess(true);
+//     alert("Profile updated successfully!");
 //     setTimeout(() => setShowSuccess(false), 3000);
+//   };
+
+//   // Staff functions
+//   const handleAddStaff = () => {
+//     const newStaff = { id: Date.now(), name: "", role: "Staff" };
+//     setStaff((prev) => [...prev, newStaff]);
+
+//     // set staff error for the new staff to enforce filling it
+//     setErrors((prev) => ({
+//       ...prev,
+//       staff: { ...prev.staff, [newStaff.id]: "Name cannot be empty" },
+//     }));
+//   };
+
+//   const handleDeleteStaff = (id) => {
+//     setStaff((prev) => prev.filter((m) => m.id !== id));
+//     setErrors((prev) => {
+//       const nextStaffErrors = { ...prev.staff };
+//       delete nextStaffErrors[id];
+//       return { ...prev, staff: nextStaffErrors };
+//     });
+//   };
+
+//   const handleEditStaff = (id, updatedName, updatedRole) => {
+//     setStaff((prev) =>
+//       prev.map((member) =>
+//         member.id === id ? { ...member, name: updatedName, role: updatedRole } : member
+//       )
+//     );
+
+//     // validate immediately
+//     setErrors((prev) => {
+//       const next = { ...prev.staff };
+//       const nameErr = validateStaffName(updatedName);
+//       if (nameErr) next[id] = nameErr;
+//       else delete next[id];
+//       return { ...prev, staff: next };
+//     });
+//   };
+
+//   // handle profile restaurantName change with validation
+//   const onProfileNameChange = (value) => {
+//     setProfile((p) => ({ ...p, restaurantName: value }));
+//     const err = validateProfileName(value);
+//     setErrors((prev) => ({ ...prev, profileName: err }));
+//   };
+
+//   // check if there are validation errors to disable save
+//   const hasValidationErrors = () => {
+//     if (errors.profileName) return true;
+//     if (Object.keys(errors.staff || {}).length > 0) return true;
+//     // optional: you can add other validation checks here
+//     return false;
 //   };
 
 //   return (
 //     <div className="max-w-4xl mx-auto mb-10 space-y-8 ">
-//       <div className='pt-5 mt-3 '>
+//       <div className="pt-5 mt-3 ">
 //         <h1 className="text-4xl font-bold">Settings</h1>
 //         <p className="text-gray-500 mt-1">
 //           Manage your restaurant profile, staff, and operational settings.
 //         </p>
 //       </div>
-      
-//        <Card className="bg-white rounded-lg border border-gray-200">
+
+//       <Card className="bg-white rounded-lg border border-gray-200">
 //         <CardHeader className="px-6 py-4 border-b border-gray-200">
 //           <CardTitle className="text-lg font-semibold text-blue-900">
 //             Restaurant Profile
@@ -56,25 +159,46 @@
 //         </CardHeader>
 
 //         <CardContent className="space-y-6 p-5">
-
 //           {/* Form grid */}
-//           <div className= "grid grid-cols-2 gap-4 mb-4">
+//           <div className="grid grid-cols-2 gap-4 mb-4">
 //             <div>
-//               <Label className="block text-sm font-medium text-gray-700 mb-2">Restaurant Name</Label>
-//               <Input 
-//               type="text"
-//                value={profile.restaurantName}
-//               onChange={(e) => setProfile({...profile, restaurantName: e.target.value})} 
-//               className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+//               <Label className="block text-sm font-medium text-gray-700 mb-2">
+//                 Restaurant Name
+//               </Label>
+//               <Input
+//                 type="text"
+//                 value={profile.restaurantName}
+//                 onChange={(e) => onProfileNameChange(e.target.value)}
+//                 className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+//               />
+//               {errors.profileName && (
+//                 <p className="text-red-600 text-xs mt-1">{errors.profileName}</p>
+//               )}
 //             </div>
 
 //             <div>
-//               <Label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</Label>
-//               <Input 
-//               type="text"
-//                     value={profile.phoneNumber}
-//                     onChange={(e) => setProfile({...profile, phoneNumber: e.target.value})}
-//                     className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+//               <Label className="block text-sm font-medium text-gray-700 mb-2">
+//                 Phone Number
+//               </Label>
+//            <Input
+//   type="text"
+//   value={profile.phoneNumber}
+//   onChange={(e) => {
+//     let value = e.target.value;
+
+//     // Allow only digits, hyphens, round brackets
+//     value = value.replace(/[^0-9()-]/g, "");
+
+//     // Count only digits for the 10-digit rule
+//     const digitsOnly = value.replace(/\D/g, "");
+
+//     // Stop input if digits exceed 10
+//     if (digitsOnly.length > 10) return;
+
+//     setProfile({ ...profile, phoneNumber: value });
+//   }}
+//   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+// />
 //             </div>
 //           </div>
 
@@ -82,20 +206,28 @@
 //             <Label className="block text-sm font-medium text-gray-700 mb-2">Address</Label>
 //             <textarea
 //               value={profile.address}
-//                   onChange={(e) => setProfile({...profile, address: e.target.value})}
-//                   rows={3}
-//                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+//               onChange={(e) => setProfile({ ...profile, address: e.target.value })}
+//               rows={3}
+//               className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
 //             />
 //           </div>
-// </CardContent>
-//           <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 rounded-b-lg">
-//             <Button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Cancel</Button>
-//             <Button onClick={handleSave} className="px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded-md hover:bg-orange-600">
-//               Save Changes
-//             </Button>
-//           </div>
+//         </CardContent>
 
-        
+//         <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 rounded-b-lg">
+//           <Button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+//             Cancel
+//           </Button>
+
+//           <Button
+//             onClick={handleSave}
+//             className={`px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded-md hover:bg-orange-600 ${
+//               hasValidationErrors() ? "opacity-60 cursor-not-allowed" : ""
+//             }`}
+//             disabled={hasValidationErrors()}
+//           >
+//             Save Changes
+//           </Button>
+//         </div>
 //       </Card>
 
 //       {/* Operating Hours */}
@@ -112,42 +244,55 @@
 //               <Label className="w-32 text-sm font-medium text-gray-900">{day}</Label>
 //               <div className="flex-1 px-4 ml-25 rounded-md flex items-center gap-4">
 //                 <div className="relative flex-1">
-//               <Input type="time"
-//                         value={hours[day].start}
-//                         onChange={(e) => setHours({...hours, [day]: {...hours[day], start: e.target.value}})} className="bg-gray-100 "/>
-//                         </div>
-//                         <div className="relative flex-1">
-//               <Input type="time" value={hours[day].end}
-//                         onChange={(e) => setHours({...hours, [day]: {...hours[day], end: e.target.value}})} className="bg-gray-100 border-b"/>
-//               </div>
+//                   <Input
+//                     type="time"
+//                     value={hours[day].start}
+//                     onChange={(e) =>
+//                       setHours({ ...hours, [day]: { ...hours[day], start: e.target.value } })
+//                     }
+//                     className="bg-gray-100 "
+//                   />
+//                 </div>
+//                 <div className="relative flex-1">
+//                   <Input
+//                     type="time"
+//                     value={hours[day].end}
+//                     onChange={(e) =>
+//                       setHours({ ...hours, [day]: { ...hours[day], end: e.target.value } })
+//                     }
+//                     className="bg-gray-100 border-b"
+//                   />
+//                 </div>
 //               </div>
 //             </div>
 //           ))}
-//  </CardContent>
-//           <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 rounded-b-lg">
-//             <Button variant="outline">Cancel</Button>
-//             <Button onClick={handleSave} className="bg-orange-500 hover:bg-orange-600">
-//               Save Changes
-//             </Button>
-//           </div>
-       
+//         </CardContent>
+
+//         <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 rounded-b-lg">
+//           <Button variant="outline">Cancel</Button>
+//           <Button onClick={handleSave} className="bg-orange-500 hover:bg-orange-600">
+//             Save Changes
+//           </Button>
+//         </div>
 //       </Card>
 
 //       {/* Staff Management */}
-//       <Card className= "bg-white rounded-lg border border-gray-200">
-  
-//         <CardHeader className="flex flex-row justify-between items-center border-b border-gray-200 text-gray-500 border-b">
-//           <CardTitle className="text-lg font-semibold text-blue-900">
-//             Staff Management
-//           </CardTitle>
+//       <Card className="bg-white rounded-lg border border-gray-200">
+//         <CardHeader className="flex md:flex-row justify-between items-center border-gray-200 text-gray-500 border-b">
+//           <CardTitle className="text-lg font-semibold text-blue-900">Staff Management</CardTitle>
 
-//           <Button className=" flex items-center gap-2 px-4 py-2 bg-blue-900 text-white rounded-md text-sm font-medium hover:bg-blue-800"><FaPlus className='text-sm '/> Add Staff</Button>
+//           <Button
+//             onClick={handleAddStaff}
+//             className="flex items-center gap-2 px-4 py-2 bg-blue-900 text-white rounded-md text-sm font-medium hover:bg-blue-800"
+//           >
+//             <FaPlus className="text-sm " /> Add Staff
+//           </Button>
 //         </CardHeader>
 
 //         <CardContent>
 //           <table className="w-full border text-sm rounded-md overflow-hidden">
 //             <thead className="text-gray-500">
-//               <tr className='border-b border-gray-200 '>
+//               <tr className="border-b border-gray-200 ">
 //                 <th className="p-3 text-left">Name</th>
 //                 <th className="p-3 text-left">Role</th>
 //                 <th className="p-3 flex justify-end">Actions</th>
@@ -155,23 +300,45 @@
 //             </thead>
 
 //             <tbody className="divide-y divide-gray-200">
-//               <tr className="border-b border-gray-200">
-//                 <td className="p-3">Jane Doe</td>
-//                 <td className="p-3">Admin</td>
-//                 <td className="p-3 flex text-gray-500 text-2xl justify-end gap-3">
-//                   <button><MdOutlineModeEditOutline /></button>
-//                   <button><PiTrashDuotone /></button>
-//                 </td>
-//               </tr>
+//               {staff.map((member) => (
+//                 <tr key={member.id} className="border-b border-gray-200">
+//                   <td className="p-3">
+//                     <input
+//                       type="text"
+//                       value={member.name}
+//                       onChange={(e) => handleEditStaff(member.id, e.target.value, member.role)}
+//                       className=" px-2 py-1 rounded w-full"
+//                       placeholder="Enter name"
+//                     />
+//                     {errors.staff && errors.staff[member.id] && (
+//                       <p className="text-red-600 text-xs mt-1">{errors.staff[member.id]}</p>
+//                     )}
+//                   </td>
 
-//               <tr>
-//                 <td className="p-3">John Smith</td>
-//                 <td className="p-3">Manager</td>
-//                 <td className="p-3 flex gap-3 justify-end text-gray-500 text-2xl">
-//                  <button><MdOutlineModeEditOutline /></button>
-//                   <button><PiTrashDuotone /></button>
-//                 </td>
-//               </tr>
+//                   <td className="p-3">
+//                     <input
+//                       type="text"
+//                       value={member.role}
+//                       onChange={(e) => handleEditStaff(member.id, member.name, e.target.value)}
+//                       className="px-2 py-1 rounded w-full"
+//                     />
+//                   </td>
+
+//                   <td className="p-3 flex justify-end text-gray-500 text-2xl gap-3">
+//                     <button
+//                       title="Edit"
+//                       onClick={() => {
+//                         /* optional: focus or open modal */
+//                       }}
+//                     >
+//                       <MdOutlineModeEditOutline />
+//                     </button>
+//                     <button title="Delete" onClick={() => handleDeleteStaff(member.id)}>
+//                       <PiTrashDuotone />
+//                     </button>
+//                   </td>
+//                 </tr>
+//               ))}
 //             </tbody>
 //           </table>
 //         </CardContent>
@@ -179,13 +346,10 @@
 
 //       {/* Payment + Notifications */}
 //       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
 //         {/* Payment */}
 //         <Card className="bg-white rounded-lg border border-gray-200">
 //           <CardHeader className="px-6 py-4 border-b border-gray-200">
-//             <CardTitle className="text-lg font-semibold text-blue-900">
-//               Payment Gateway
-//             </CardTitle>
+//             <CardTitle className="text-lg font-semibold text-blue-900">Payment Gateway</CardTitle>
 //           </CardHeader>
 
 //           <CardContent className="p-4  flex flex-col items-center justify-center py-10 ">
@@ -200,47 +364,47 @@
 //         </Card>
 
 //         {/* Notifications */}
-//         <Card className=' rounded-lg border border-gray-200'>
+//         <Card className=" rounded-lg border border-gray-200">
 //           <CardHeader className="px-6 py-4 border-b border-gray-200">
-//             <CardTitle className="text-lg font-semibold text-blue-900">
-//               Notifications
-//             </CardTitle>
+//             <CardTitle className="text-lg font-semibold text-blue-900">Notifications</CardTitle>
 //           </CardHeader>
 
 //           <CardContent className="p-6 space-y-4">
 //             <label className="flex items-center justify-between">
 //               Email for new orders
-//               <input type="checkbox" defaultChecked />
+//               <input
+//                 type="checkbox"
+//                 checked={notifications.emailOrders}
+//                 onChange={(e) => setNotifications({ ...notifications, emailOrders: e.target.checked })}
+//               />
 //             </label>
 
-//              <label className="flex items-center justify-between">
-//                  SMS for new orders
-//               <input type="checkbox" defaultChecked  />
+//             <label className="flex items-center justify-between">
+//               SMS for new orders
+//               <input
+//                 type="checkbox"
+//                 checked={notifications.smsOrders}
+//                 onChange={(e) => setNotifications({ ...notifications, smsOrders: e.target.checked })}
+//               />
 //             </label>
 
-//              <label className="flex items-center justify-between">
-//                Daily summary email
-//               <input type="checkbox" defaultChecked />
+//             <label className="flex items-center justify-between">
+//               Daily summary email
+//               <input
+//                 type="checkbox"
+//                 checked={notifications.dailySummary}
+//                 onChange={(e) => setNotifications({ ...notifications, dailySummary: e.target.checked })}
+//               />
 //             </label>
 //           </CardContent>
 //         </Card>
 
 //       </div>
 //     </div>
-//   )
-// }
+//   );
+// };
 
-// export default Settings-----------------------------------------1
-"use client";
-
-import React, { useState } from "react";
-import { Card, CardHeader, CardContent, CardTitle } from "../../component/ui/card";
-import { Button } from "../../component/ui/button";
-import { Input } from "../../component/ui/input";
-import { Label } from "../../component/ui/label";
-import { MdOutlineModeEditOutline } from "react-icons/md";
-import { PiTrashDuotone } from "react-icons/pi";
-import { FaPlus } from "react-icons/fa6";
+// export default Settings;
 
 const Settings = () => {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -268,33 +432,24 @@ const Settings = () => {
     dailySummary: true,
   });
 
-  // validation errors
   const [errors, setErrors] = useState({
     profileName: "",
-    staff: {}, // { [id]: "error message" }
+    staff: {},
   });
 
-  // Validation helpers
   const validateProfileName = (name) => {
-    if (!name || !name.trim()) {
-      return "Restaurant name cannot be empty";
-    }
+    if (!name.trim()) return "Restaurant name cannot be empty";
     return "";
   };
 
   const validateStaffName = (name) => {
-    if (!name || !name.trim()) {
-      return "Name cannot be empty";
-    }
+    if (!name.trim()) return "Name cannot be empty";
     return "";
   };
 
-  // Called on Save
   const handleSave = () => {
-    // validate profile
     const profileNameError = validateProfileName(profile.restaurantName);
 
-    // validate staff
     const staffErrors = {};
     staff.forEach((s) => {
       const err = validateStaffName(s.name);
@@ -303,31 +458,20 @@ const Settings = () => {
 
     setErrors({ profileName: profileNameError, staff: staffErrors });
 
-    const hasErrors =
-      !!profileNameError || Object.keys(staffErrors).length > 0;
-
-    if (hasErrors) {
-      // prevent saving
+    if (profileNameError || Object.keys(staffErrors).length > 0) {
       alert("Please fix validation errors before saving.");
       return;
     }
 
-    // simulate save
-    const savedData = { profile, hours, staff, notifications };
-    console.log("Saved Settings:", savedData);
-
-    // show success UI
     setShowSuccess(true);
     alert("Profile updated successfully!");
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
-  // Staff functions
   const handleAddStaff = () => {
     const newStaff = { id: Date.now(), name: "", role: "Staff" };
     setStaff((prev) => [...prev, newStaff]);
 
-    // set staff error for the new staff to enforce filling it
     setErrors((prev) => ({
       ...prev,
       staff: { ...prev.staff, [newStaff.id]: "Name cannot be empty" },
@@ -336,21 +480,19 @@ const Settings = () => {
 
   const handleDeleteStaff = (id) => {
     setStaff((prev) => prev.filter((m) => m.id !== id));
+
     setErrors((prev) => {
-      const nextStaffErrors = { ...prev.staff };
-      delete nextStaffErrors[id];
-      return { ...prev, staff: nextStaffErrors };
+      const next = { ...prev.staff };
+      delete next[id];
+      return { ...prev, staff: next };
     });
   };
 
   const handleEditStaff = (id, updatedName, updatedRole) => {
     setStaff((prev) =>
-      prev.map((member) =>
-        member.id === id ? { ...member, name: updatedName, role: updatedRole } : member
-      )
+      prev.map((m) => (m.id === id ? { ...m, name: updatedName, role: updatedRole } : m))
     );
 
-    // validate immediately
     setErrors((prev) => {
       const next = { ...prev.staff };
       const nameErr = validateStaffName(updatedName);
@@ -360,162 +502,137 @@ const Settings = () => {
     });
   };
 
-  // handle profile restaurantName change with validation
   const onProfileNameChange = (value) => {
     setProfile((p) => ({ ...p, restaurantName: value }));
-    const err = validateProfileName(value);
-    setErrors((prev) => ({ ...prev, profileName: err }));
+    setErrors((prev) => ({ ...prev, profileName: validateProfileName(value) }));
   };
 
-  // check if there are validation errors to disable save
   const hasValidationErrors = () => {
-    if (errors.profileName) return true;
-    if (Object.keys(errors.staff || {}).length > 0) return true;
-    // optional: you can add other validation checks here
-    return false;
+    return errors.profileName || Object.keys(errors.staff).length > 0;
   };
 
   return (
-    <div className="max-w-4xl mx-auto mb-10 space-y-8 ">
-      <div className="pt-5 mt-3 ">
-        <h1 className="text-4xl font-bold">Settings</h1>
+    <div className="max-w-4xl mx-auto px-4 md:px-0 mb-10 space-y-8">
+
+      {/* HEADER */}
+      <div className="pt-5 mt-3">
+        <h1 className="text-3xl md:text-4xl font-bold">Settings</h1>
         <p className="text-gray-500 mt-1">
           Manage your restaurant profile, staff, and operational settings.
         </p>
       </div>
 
-      <Card className="bg-white rounded-lg border border-gray-200">
-        <CardHeader className="px-6 py-4 border-b border-gray-200">
-          <CardTitle className="text-lg font-semibold text-blue-900">
-            Restaurant Profile
-          </CardTitle>
+      {/* RESTAURANT PROFILE */}
+      <Card className="border-gray-200">
+        <CardHeader className="border-b border-gray-200">
+          <CardTitle className="text-blue-900 text-lg">Restaurant Profile</CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-6 p-5">
-          {/* Form grid */}
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            {/* Restaurant Name */}
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-2">
-                Restaurant Name
-              </Label>
+              <Label className="text-sm mb-2">Restaurant Name</Label>
               <Input
                 type="text"
                 value={profile.restaurantName}
                 onChange={(e) => onProfileNameChange(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {errors.profileName && (
                 <p className="text-red-600 text-xs mt-1">{errors.profileName}</p>
               )}
             </div>
 
+            {/* Phone Number */}
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-2">
-                Phone Number
-              </Label>
-           <Input
-  type="text"
-  value={profile.phoneNumber}
-  onChange={(e) => {
-    let value = e.target.value;
-
-    // Allow only digits, hyphens, round brackets
-    value = value.replace(/[^0-9()-]/g, "");
-
-    // Count only digits for the 10-digit rule
-    const digitsOnly = value.replace(/\D/g, "");
-
-    // Stop input if digits exceed 10
-    if (digitsOnly.length > 10) return;
-
-    setProfile({ ...profile, phoneNumber: value });
-  }}
-  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-/>
-
+              <Label className="text-sm mb-2">Phone Number</Label>
+              <Input
+                type="text"
+                value={profile.phoneNumber}
+                onChange={(e) => {
+                  let v = e.target.value.replace(/[^0-9()-]/g, "");
+                  if (v.replace(/\D/g, "").length > 10) return;
+                  setProfile({ ...profile, phoneNumber: v });
+                }}
+              />
             </div>
           </div>
 
+          {/* Address */}
           <div>
-            <Label className="block text-sm font-medium text-gray-700 mb-2">Address</Label>
+            <Label className="text-sm mb-2">Address</Label>
             <textarea
               value={profile.address}
               onChange={(e) => setProfile({ ...profile, address: e.target.value })}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
         </CardContent>
 
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 rounded-b-lg">
-          <Button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
-            Cancel
-          </Button>
-
+        <div className="p-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 rounded-b-lg">
+          <Button variant="outline">Cancel</Button>
           <Button
             onClick={handleSave}
-            className={`px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded-md hover:bg-orange-600 ${
-              hasValidationErrors() ? "opacity-60 cursor-not-allowed" : ""
-            }`}
             disabled={hasValidationErrors()}
+            className={`bg-orange-500 hover:bg-orange-600 ${
+              hasValidationErrors() && "opacity-60 cursor-not-allowed"
+            }`}
           >
             Save Changes
           </Button>
         </div>
       </Card>
 
-      {/* Operating Hours */}
-      <Card className="bg-white rounded-lg border border-gray-200">
-        <CardHeader className="px-6 py-4 border-b border-gray-200">
-          <CardTitle className="text-lg font-semibold text-blue-900">
-            Operating Hours
-          </CardTitle>
+      {/* OPERATING HOURS */}
+      <Card className="border-gray-200">
+        <CardHeader className="border-b border-gray-200">
+          <CardTitle className="text-blue-900 text-lg">Operating Hours</CardTitle>
         </CardHeader>
 
-        <CardContent className="p-6 space-y-4 ">
+        <CardContent className="p-6 space-y-5">
           {Object.keys(hours).map((day) => (
-            <div key={day} className="flex items-center gap-4">
-              <Label className="w-32 text-sm font-medium text-gray-900">{day}</Label>
-              <div className="flex-1 px-4 ml-25 rounded-md flex items-center gap-4">
-                <div className="relative flex-1">
-                  <Input
-                    type="time"
-                    value={hours[day].start}
-                    onChange={(e) =>
-                      setHours({ ...hours, [day]: { ...hours[day], start: e.target.value } })
-                    }
-                    className="bg-gray-100 "
-                  />
-                </div>
-                <div className="relative flex-1">
-                  <Input
-                    type="time"
-                    value={hours[day].end}
-                    onChange={(e) =>
-                      setHours({ ...hours, [day]: { ...hours[day], end: e.target.value } })
-                    }
-                    className="bg-gray-100 border-b"
-                  />
-                </div>
+            <div key={day} className="flex flex-col md:flex-row md:items-center gap-4">
+
+              <Label className="md:w-32 font-medium">{day}</Label>
+
+              <div className="flex flex-col md:flex-row gap-4 w-full">
+                <Input
+                  type="time"
+                  value={hours[day].start}
+                  className="bg-gray-100"
+                  onChange={(e) =>
+                    setHours({ ...hours, [day]: { ...hours[day], start: e.target.value } })
+                  }
+                />
+                <Input
+                  type="time"
+                  value={hours[day].end}
+                  className="bg-gray-100"
+                  onChange={(e) =>
+                    setHours({ ...hours, [day]: { ...hours[day], end: e.target.value } })
+                  }
+                />
               </div>
+
             </div>
           ))}
         </CardContent>
 
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 rounded-b-lg">
+        <div className="p-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 rounded-b-lg">
           <Button variant="outline">Cancel</Button>
-          <Button onClick={handleSave} className="bg-orange-500 hover:bg-orange-600">
+          <Button className="bg-orange-500 hover:bg-orange-600" onClick={handleSave}>
             Save Changes
           </Button>
         </div>
       </Card>
 
-      {/* Staff Management */}
-      <Card className="bg-white rounded-lg border border-gray-200">
-        <CardHeader className="flex flex-row justify-between items-center border-gray-200 text-gray-500 border-b">
-          <CardTitle className="text-lg font-semibold text-blue-900">Staff Management</CardTitle>
+      {/* STAFF MANAGEMENT */}
+     <Card className="bg-white rounded-lg border border-gray-200">
+     <CardHeader className="flex md:flex-row justify-between items-center border-gray-200 text-gray-500 border-b">       <CardTitle className="text-lg font-semibold text-blue-900">Staff Management</CardTitle>
 
-          <Button
+<Button
             onClick={handleAddStaff}
             className="flex items-center gap-2 px-4 py-2 bg-blue-900 text-white rounded-md text-sm font-medium hover:bg-blue-800"
           >
@@ -529,7 +646,7 @@ const Settings = () => {
               <tr className="border-b border-gray-200 ">
                 <th className="p-3 text-left">Name</th>
                 <th className="p-3 text-left">Role</th>
-                <th className="p-3 flex justify-end">Actions</th>
+                <th className="p-3 text-end">Actions</th>
               </tr>
             </thead>
 
@@ -576,21 +693,22 @@ const Settings = () => {
             </tbody>
           </table>
         </CardContent>
-      </Card>
+   </Card>
 
-      {/* Payment + Notifications */}
+      {/* PAYMENT + NOTIFICATIONS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
         {/* Payment */}
-        <Card className="bg-white rounded-lg border border-gray-200">
-          <CardHeader className="px-6 py-4 border-b border-gray-200">
-            <CardTitle className="text-lg font-semibold text-blue-900">Payment Gateway</CardTitle>
+        <Card className="border-gray-200">
+          <CardHeader className="border-b border-gray-200">
+            <CardTitle className="text-blue-900 text-lg">Payment Gateway</CardTitle>
           </CardHeader>
 
-          <CardContent className="p-4  flex flex-col items-center justify-center py-10 ">
-            <div className="w-12 h-12 bg-gray-100 mb-4"></div>
-            <div className="flex items-center gap-2 text-sm text-green-600 font-medium mb-6 rounded-3xl px-4 py-1 bg-green-100">
+          <CardContent className="p-6 flex flex-col items-center text-center space-y-5">
+            <div className="w-12 h-12 bg-gray-100 rounded-md"></div>
+            <div className="flex items-center gap-2 bg-green-100 px-4 py-1 rounded-full">
               <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-              <span className="text-green-600 ">Connected</span>
+              <span className="text-green-700 text-sm">Connected</span>
             </div>
 
             <Button>Manage Connection</Button>
@@ -598,47 +716,53 @@ const Settings = () => {
         </Card>
 
         {/* Notifications */}
-        <Card className=" rounded-lg border border-gray-200">
-          <CardHeader className="px-6 py-4 border-b border-gray-200">
-            <CardTitle className="text-lg font-semibold text-blue-900">Notifications</CardTitle>
+        <Card className="border-gray-200">
+          <CardHeader className="border-b border-gray-200">
+            <CardTitle className="text-blue-900 text-lg">Notifications</CardTitle>
           </CardHeader>
 
           <CardContent className="p-6 space-y-4">
-            <label className="flex items-center justify-between">
+            <label className="flex justify-between">
               Email for new orders
               <input
                 type="checkbox"
                 checked={notifications.emailOrders}
-                onChange={(e) => setNotifications({ ...notifications, emailOrders: e.target.checked })}
+                onChange={(e) =>
+                  setNotifications({ ...notifications, emailOrders: e.target.checked })
+                }
               />
             </label>
 
-            <label className="flex items-center justify-between">
+            <label className="flex justify-between">
               SMS for new orders
               <input
                 type="checkbox"
                 checked={notifications.smsOrders}
-                onChange={(e) => setNotifications({ ...notifications, smsOrders: e.target.checked })}
+                onChange={(e) =>
+                  setNotifications({ ...notifications, smsOrders: e.target.checked })
+                }
               />
             </label>
 
-            <label className="flex items-center justify-between">
+            <label className="flex justify-between">
               Daily summary email
               <input
                 type="checkbox"
                 checked={notifications.dailySummary}
-                onChange={(e) => setNotifications({ ...notifications, dailySummary: e.target.checked })}
+                onChange={(e) =>
+                  setNotifications({ ...notifications, dailySummary: e.target.checked })
+                }
               />
             </label>
           </CardContent>
         </Card>
-
       </div>
     </div>
   );
 };
 
 export default Settings;
+
 
 
 
