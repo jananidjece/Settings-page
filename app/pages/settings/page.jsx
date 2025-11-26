@@ -591,7 +591,7 @@ const Settings = () => {
           <CardTitle className="text-blue-900 text-lg">Operating Hours</CardTitle>
         </CardHeader>
 
-        <CardContent className="p-6 space-y-5">
+        <CardContent className="p-6 space-y-5 overflow-x-hidden">
           {Object.keys(hours).map((day) => (
             <div key={day} className="flex flex-col md:flex-row md:items-center gap-4">
 
@@ -641,7 +641,7 @@ const Settings = () => {
         </CardHeader>
 
         <CardContent>
-          <table className="w-full border text-sm rounded-md overflow-hidden">
+          <table className="w-full text-sm rounded-md overflow-hidden">
             <thead className="text-gray-500">
               <tr className="border-b border-gray-200 ">
                 <th className="p-3 text-left">Name</th>
