@@ -595,13 +595,13 @@ const Settings = () => {
           {Object.keys(hours).map((day) => (
             <div key={day} className="flex flex-col md:flex-row md:items-center gap-4">
 
-              <Label className="md:w-32 font-medium">{day}</Label>
+              <Label className="md:w-32 w-full font-medium break-words">{day}</Label>
 
-              <div className="flex flex-col md:flex-row gap-4 md:w-full max-w-full">
+              <div className="flex flex-col md:flex-row gap-4 w-full min-w-0">
                 <Input
                   type="time"
                   value={hours[day].start}
-                  className="bg-gray-100"
+                  className="bg-gray-100 w-full"
                   onChange={(e) =>
                     setHours({ ...hours, [day]: { ...hours[day], start: e.target.value } })
                   }
@@ -609,7 +609,7 @@ const Settings = () => {
                 <Input
                   type="time"
                   value={hours[day].end}
-                  className="bg-gray-100"
+                  className="bg-gray-100 w-full"
                   onChange={(e) =>
                     setHours({ ...hours, [day]: { ...hours[day], end: e.target.value } })
                   }
