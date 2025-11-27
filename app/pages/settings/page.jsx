@@ -597,7 +597,7 @@ const Settings = () => {
 
               <Label className="md:w-32 font-medium">{day}</Label>
 
-              <div className="flex flex-col md:flex-row gap-4 w-full">
+              <div className="flex flex-col md:flex-row gap-4 max-w-full">
                 <Input
                   type="time"
                   value={hours[day].start}
