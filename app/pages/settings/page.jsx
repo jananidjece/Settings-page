@@ -601,7 +601,7 @@ const Settings = () => {
                 <Input
                   type="time"
                   value={hours[day].start}
-                  className="bg-gray-100 w-full"
+                  className="bg-gray-100 w-full min-w-0"
                   onChange={(e) =>
                     setHours({ ...hours, [day]: { ...hours[day], start: e.target.value } })
                   }
@@ -609,7 +609,7 @@ const Settings = () => {
                 <Input
                   type="time"
                   value={hours[day].end}
-                  className="bg-gray-100 w-full"
+                  className="bg-gray-100 w-full min-w-0"
                   onChange={(e) =>
                     setHours({ ...hours, [day]: { ...hours[day], end: e.target.value } })
                   }
