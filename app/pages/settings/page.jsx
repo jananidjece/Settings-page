@@ -597,7 +597,7 @@ const Settings = () => {
 
               <Label className="md:w-32 w-full font-medium break-words">{day}</Label>
 
-              <div className="flex flex-col md:flex-row gap-4 w-full min-w-0">
+              {/* <div className="flex flex-col md:flex-row gap-4 w-full min-w-0">
                 <Input
                   type="time"
                   value={hours[day].start}
@@ -614,7 +614,29 @@ const Settings = () => {
                     setHours({ ...hours, [day]: { ...hours[day], end: e.target.value } })
                   }
                 />
-              </div>
+              </div> */}
+              <div className="flex flex-col md:flex-row gap-4 w-full min-w-0">
+  <div className="flex-1 min-w-0">
+    <Input
+      type="time"
+      value={hours[day].start}
+      className="bg-gray-100 w-full min-w-0"
+      onChange={(e) =>
+        setHours({ ...hours, [day]: { ...hours[day], start: e.target.value } })
+      }
+    />
+  </div>
+  <div className="flex-1 min-w-0">
+    <Input
+      type="time"
+      value={hours[day].end}
+      className="bg-gray-100 w-full min-w-0"
+      onChange={(e) =>
+        setHours({ ...hours, [day]: { ...hours[day], end: e.target.value } })
+      }
+    />
+  </div>
+</div>
 
             </div>
           ))}
