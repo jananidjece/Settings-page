@@ -626,7 +626,49 @@ const Settings = () => {
             Save Changes
           </Button>
         </div>
-      </Card>
+      </Card>this is my coding where i need add to to avoid overflowShow moreThe issue is that you need to add overflow-hidden to the Card component itself, not just the CardContent. Here's the fix:
+javascriptreact{/* OPERATING HOURS */}
+<Card className="border-gray-200 overflow-hidden">
+  <CardHeader className="border-b border-gray-200">
+    <CardTitle className="text-blue-900 text-lg">Operating Hours</CardTitle>
+  </CardHeader>
+
+  <CardContent className="p-6 space-y-5">
+    {Object.keys(hours).map((day) => (
+      <div key={day} className="flex flex-col md:flex-row md:items-center gap-4">
+
+        <Label className="md:w-32 font-medium">{day}</Label>
+
+        <div className="flex flex-col md:flex-row gap-4 flex-1">
+          <Input
+            type="time"
+            value={hours[day].start}
+            className="bg-gray-100 w-full md:w-auto"
+            onChange={(e) =>
+              setHours({ ...hours, [day]: { ...hours[day], start: e.target.value } })
+            }
+          />
+          <Input
+            type="time"
+            value={hours[day].end}
+            className="bg-gray-100 w-full md:w-auto"
+            onChange={(e) =>
+              setHours({ ...hours, [day]: { ...hours[day], end: e.target.value } })
+            }
+          />
+        </div>
+
+      </div>
+    ))}
+  </CardContent>
+
+  <div className="p-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3 rounded-b-lg">
+    <Button variant="outline">Cancel</Button>
+    <Button className="bg-orange-500 hover:bg-orange-600" onClick={handleSave}>
+      Save Changes
+    </Button>
+  </div>
+</Card>
 
       {/* STAFF MANAGEMENT */}
      <Card className="bg-white rounded-lg border border-gray-200">
